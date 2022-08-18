@@ -22,6 +22,29 @@ const createPokemonCard = (pokemon) => {
     //if (types[1].type.name != )
     const type1 = types[0].type.name;
 
+    // Pokemon type colors defined
+    const pokemonTypeColors = {
+        normal: '#A8A77A',
+        fire: '#EE8130',
+        water: '#6390F0',
+        electric: '#F7D02C',
+        "grass": '#7AC74C',
+        ice: '#96D9D6',
+        fighting: '#C22E28',
+        "poison": '#A33EA1',
+        ground: '#E2BF65',
+        flying: '#A98FF3',
+        psychic: '#F95587',
+        bug: '#A6B91A',
+        rock: '#B6A136',
+        ghost: '#735797',
+        dragon: '#6F35FC',
+        dark: '#705746',
+        steel: '#B7B7CE',
+        fairy: '#D685AD'
+    }
+
+    // Different behavior depending on two or just one type
     if (types.length === 2) {
         var type2 = types[1].type.name;
 
@@ -35,6 +58,11 @@ const createPokemonCard = (pokemon) => {
         <small class="type">Type: <span>${type1} / ${type2}</span></small>
         </div>
         `;
+
+        pokemonEl.style.background = `
+        linear-gradient(to right, ${pokemonTypeColors.type1}, ${pokemonTypeColors.type2});
+        `;
+
     } else {
         var pokeInnerHTML = `
         <div class="img-container">
@@ -47,65 +75,63 @@ const createPokemonCard = (pokemon) => {
        </div>
        `;
 
-       pokemonEl.classList.add("pokemon-type");
-
        switch (type1) {
         case "normal":
-        pokemonEl.classList.add("pokemon-normal");
+        pokemonEl.style.backgroundColor = pokemonTypeColors.normal;
         break;
         case "fire":
-        pokemonEl.style.backgroundColor = "#EE8130";
+        pokemonEl.style.backgroundColor = pokemonTypeColors.fire;
         break;
         case "water":
-        pokemonEl.classList.add("pokemon-water");
+        pokemonEl.style.backgroundColor = pokemonTypeColors.water;
         break;
         case "electric":
-        pokemonEl.classList.add("pokemon-electric");
+        pokemonEl.style.backgroundColor = pokemonTypeColors.electric;
         break;
         case "grass":
-        pokemonEl.classList.add("pokemon-grass");
+        pokemonEl.style.backgroundColor = pokemonTypeColors.grass;
         break;
         case "ice":
-        pokemonEl.classList.add("pokemon-ice");
+        pokemonEl.style.backgroundColor = pokemonTypeColors.ice;
         break;
         case "fighting":
-        pokemonEl.classList.add("pokemon-fighting");
+        pokemonEl.style.backgroundColor = pokemonTypeColors.fighting;
         break;
         case "poison":
-        pokemonEl.classList.add("pokemon-poison");
+        pokemonEl.style.backgroundColor = pokemonTypeColors.poison;
         break;
         case "ground":
-        pokemonEl.classList.add("pokemon-ground");
+        pokemonEl.style.backgroundColor = pokemonTypeColors.ground;
         break;
         case "flying":
-        pokemonEl.classList.add("pokemon-flying");
+        pokemonEl.style.backgroundColor = pokemonTypeColors.flying;
         break;
         case "psychic":
-        pokemonEl.classList.add("pokemon-psychic");
+        pokemonEl.style.backgroundColor = pokemonTypeColors.psychic;
         break;
         case "bug":
-        pokemonEl.classList.add("pokemon-bug");
+        pokemonEl.style.backgroundColor = pokemonTypeColors.bug;
         break;
         case "rock":
-        pokemonEl.classList.add("pokemon-rock");
+        pokemonEl.style.backgroundColor = pokemonTypeColors.rock;
         break;
         case "ghost":
-        pokemonEl.classList.add("pokemon-ghost");
+        pokemonEl.style.backgroundColor = pokemonTypeColors.ghost;
         break;
         case "dragon":
-        pokemonEl.classList.add("pokemon-dragon");
+        pokemonEl.style.backgroundColor = pokemonTypeColors.dragon;
         break;
         case "dark":
-        pokemonEl.classList.add("pokemon-dark");
+        pokemonEl.style.backgroundColor = pokemonTypeColors.dark;
         break;
         case "steel":
-        pokemonEl.classList.add("pokemon-steel");
+        pokemonEl.style.backgroundColor = pokemonTypeColors.steel;
         break;
         case "fairy":
-        pokemonEl.classList.add("pokemon-fairy");
+        pokemonEl.style.backgroundColor = pokemonTypeColors.fairy;
         break;
         default:
-        pokemonEl.classList.add("pokemon-other");
+        pokemonEl.style.backgroundColor = pokemonTypeColors.normal;
       }
 
     }
