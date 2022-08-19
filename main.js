@@ -18,9 +18,16 @@ const getPokemon = async id => {
 const createPokemonCard = (pokemon) => {
     const pokemonEl = document.createElement("div");
     pokemonEl.classList.add("pokemon");
-    const {id, name, sprites, types} = pokemon;
-    //if (types[1].type.name != )
+    const {id, name, sprites, types, height, weight, ability} = pokemon;
+    console.log(pokemon);
     const type1 = types[0].type.name;
+   
+    // Adding modal
+    pokemonEl.addEventListener("click", createModal);
+    function createModal() {
+        console.log(pokemonEl);
+        pokemonEl.classList.toggle('active');
+      }    
 
     // Pokemon type colors defined
     const pokemonTypeColors = {
@@ -28,10 +35,10 @@ const createPokemonCard = (pokemon) => {
         fire: '#EE8130',
         water: '#6390F0',
         electric: '#F7D02C',
-        "grass": '#7AC74C',
+        grass: '#7AC74C',
         ice: '#96D9D6',
         fighting: '#C22E28',
-        "poison": '#A33EA1',
+        poison: '#A33EA1',
         ground: '#E2BF65',
         flying: '#A98FF3',
         psychic: '#F95587',
@@ -59,9 +66,19 @@ const createPokemonCard = (pokemon) => {
         </div>
         `;
 
-        pokemonEl.style.background = `
+        /* pokemonEl.style.background = linear-gradient(to right, #FF0000, #D4D3DD, #ffc600); */
+        /* pokemonEl.style.backgroundImage = getCssValuePrefix() + 'linear-gradient('
+        + orientation + ', ' + colorOne + ', ' + colorTwo + ')'; */
+
+        pokemonEl.style.backgroundImage = `linear-gradient(-45deg, ${pokemonTypeColors[type1]} 50%, ${pokemonTypeColors[type2]} 50%)`;
+        console.log("pokemonTypeColors.type1: " + pokemonTypeColors[type1]);
+        console.log("pokemonTypeColors.type2: " + pokemonTypeColors[type2]);
+
+        /* `
         linear-gradient(to right, ${pokemonTypeColors.type1}, ${pokemonTypeColors.type2});
-        `;
+        `; */
+
+        
 
     } else {
         var pokeInnerHTML = `
