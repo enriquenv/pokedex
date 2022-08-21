@@ -18,15 +18,20 @@ const getPokemon = async id => {
 const createPokemonCard = (pokemon) => {
     const pokemonEl = document.createElement("div");
     pokemonEl.classList.add("pokemon");
-    const {id, name, sprites, types, height, weight, ability} = pokemon;
+    const {id, name, sprites, types, height, weight, abilities} = pokemon;
     console.log(pokemon);
     const type1 = types[0].type.name;
+
+    var extrainfoSelector = document.getElementById("extra-info");
    
     // Adding modal
     pokemonEl.addEventListener("click", createModal);
     function createModal() {
         console.log(pokemonEl);
         pokemonEl.classList.toggle('active');
+        pokemonEl.classList.contains('active')? (this.querySelector(".extra-info").style.display = "block") : (this.querySelector(".extra-info").style.display = "none");
+
+       // document.getElementById("extra-info").style.display = (document.getElementById('extra-info').style.display === 'none' ) ? "" : "none";
       }    
 
     // Pokemon type colors defined
@@ -51,10 +56,35 @@ const createPokemonCard = (pokemon) => {
         fairy: '#D685AD'
     }
 
+    // Pokemon type icons defined
+    const pokemonTypeIcons = {
+        normal: 'assets/img/types/normal.png',
+        fire: 'assets/img/types/fire.png',
+        water: 'assets/img/types/water.png',
+        electric: 'assets/img/types/electric.png',
+        grass: 'assets/img/types/grass.png',
+        ice: 'assets/img/types/ice.png',
+        fighting: 'assets/img/types/fighting.png',
+        poison: 'assets/img/types/poison.png',
+        ground: 'assets/img/types/ground.png',
+        flying: 'assets/img/types/flying.png',
+        psychic: 'assets/img/types/psychic.png',
+        bug: 'assets/img/types/bug.png',
+        rock: 'assets/img/types/rock.png',
+        ghost: 'assets/img/types/ghost.png',
+        dragon: 'assets/img/types/dragon.png',
+        dark: 'assets/img/types/dark.png',
+        steel: 'assets/img/types/steel.png',
+        fairy: 'assets/img/types/fairy.png'
+    }
+
     // Different behavior depending on two or just one type
     if (types.length === 2) {
         var type2 = types[1].type.name;
 
+        console.log(abilities[0]["ability"]["name"]);
+        
+        if (abilities.length === 2) {
         var pokeInnerHTML = `
         <div class="img-container">
         <img src="${sprites.front_default}" alt="${name}" />
@@ -62,15 +92,38 @@ const createPokemonCard = (pokemon) => {
         <div class="info">
         <span class="number">${id}</span>
         <h3 class="name">${name}</h3>
-        <small class="type">Type: <span>${type1} / ${type2}</span></small>
+        <small class="type"><span><img src="${pokemonTypeIcons[type1]}" width="15%"> <img src="${pokemonTypeIcons[type2]}" width="15%"></span></small>
         </div>
-        `;
+        <div class="extra-info">
+        <p class="type"><strong>Type:</strong> <span>${type1} / ${type2}</span></p>
+        <p class="type"><strong>Height:</strong> <span>${height}</span></p>
+        <p class="type"><strong>Weight:</strong> <span>${weight}</span></p>
+        <p class="type"><strong>Abilities:</strong> <span>${abilities[0]["ability"]["name"]} / ${abilities[1]["ability"]["name"]} </span></p>
+        </div>
+        `;} else {
+            var pokeInnerHTML = `
+            <div class="img-container">
+            <img src="${sprites.front_default}" alt="${name}" />
+            </div>
+            <div class="info">
+            <span class="number">${id}</span>
+            <h3 class="name">${name}</h3>
+            <small class="type"><span><img src="${pokemonTypeIcons[type1]}" width="15%"> <img src="${pokemonTypeIcons[type2]}" width="15%"></span></small>
+            </div>
+            <div class="extra-info">
+            <p class="type"><strong>Type:</strong> <span>${type1} / ${type2}</span></p>
+            <p class="type"><strong>Height:</strong> <span>${height}</span></p>
+            <p class="type"><strong>Weight:</strong> <span>${weight}</span></p>
+            <p class="type"><strong>Abilities:</strong> <span>${abilities[0]["ability"]["name"]} </span></p>
+            </div>
+            `;
+        }
 
         /* pokemonEl.style.background = linear-gradient(to right, #FF0000, #D4D3DD, #ffc600); */
         /* pokemonEl.style.backgroundImage = getCssValuePrefix() + 'linear-gradient('
         + orientation + ', ' + colorOne + ', ' + colorTwo + ')'; */
 
-        pokemonEl.style.backgroundImage = `linear-gradient(-45deg, ${pokemonTypeColors[type1]} 50%, ${pokemonTypeColors[type2]} 50%)`;
+        pokemonEl.style.backgroundImage = `linear-gradient(-45deg, ${pokemonTypeColors[type2]} 50%, ${pokemonTypeColors[type1]} 50%)`;
         console.log("pokemonTypeColors.type1: " + pokemonTypeColors[type1]);
         console.log("pokemonTypeColors.type2: " + pokemonTypeColors[type2]);
 
@@ -81,6 +134,8 @@ const createPokemonCard = (pokemon) => {
         
 
     } else {
+
+        if (abilities.length === 2) {
         var pokeInnerHTML = `
         <div class="img-container">
         <img src="${sprites.front_default}" alt="${name}" />
@@ -88,9 +143,32 @@ const createPokemonCard = (pokemon) => {
         <div class="info">
         <span class="number">${id}</span>
         <h3 class="name">${name}</h3>
-        <small class="type">Type: <span>${type1}</span></small>
-       </div>
+        <small class="type"><span><img src="${pokemonTypeIcons[type1]}" width="15%"></span></small>
+        </div>
+        <div class="extra-info">
+        <p class="type"><strong>Type:</strong> <span>${type1}</span></p>
+        <p class="type"><strong>Height:</strong> <span>${height}</span></p>
+        <p class="type"><strong>Weight:</strong> <span>${weight}</span></p>
+        <p class="type"><strong>Abilities:</strong> <span>${abilities[0]["ability"]["name"]} / ${abilities[1]["ability"]["name"]} </span></p>
+        </div>
+       `;} else {
+        var pokeInnerHTML = `
+        <div class="img-container">
+        <img src="${sprites.front_default}" alt="${name}" />
+        </div>
+        <div class="info">
+        <span class="number">${id}</span>
+        <h3 class="name">${name}</h3>
+        <small class="type"><span><img src="${pokemonTypeIcons[type1]}" width="15%"></span></small>
+        </div>
+        <div class="extra-info">
+        <p class="type"><strong>Type:</strong> <span>${type1}</span></p>
+        <p class="type"><strong>Height:</strong> <span>${height}</span></p>
+        <p class="type"><strong>Weight:</strong> <span>${weight}</span></p>
+        <p class="type"><strong>Abilities:</strong> <span>${abilities[0]["ability"]["name"]}</span></p>
+        </div>
        `;
+       }
 
        switch (type1) {
         case "normal":
