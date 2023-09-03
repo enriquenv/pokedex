@@ -1,5 +1,5 @@
 const pokedex_container = document.getElementById("pokedex_container");
-let pokemons_number = 150;
+const pokemons_number = 50;
 
 const fetchPokemons = async () => {
     for (let i = 1; i <= pokemons_number; i++) {
@@ -18,52 +18,20 @@ const getPokemon = async id => {
 const createPokemonCard = (pokemon) => {
     const pokemonEl = document.createElement("div");
     pokemonEl.classList.add("pokemon");
-    const { id, name, sprites, types, height, weight, abilities } = pokemon;
+    const {id, name, sprites, types, height, weight, abilities} = pokemon;
     const type1 = types[0].type.name;
 
+    var extrainfoSelector = document.getElementById("extra-info");
+   
     // Adding modal
-    const createModal = (pokemon) => {
-        const modal = document.getElementById("modal");
-    
-        // Set the modal content with the Pokémon details
-        modal.innerHTML = `
-            <div class="img-container">
-                <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}" />
-            </div>
-            <div class="info">
-                <span class="number">${pokemon.id}</span>
-                <h3 class="name">${pokemon.name}</h3>
-                <small class="type">
-                    <img src="${pokemonTypeIcons[pokemon.types[0].type.name]}" width="15%">
-                    ${pokemon.types.length === 2 ? `<img src="${pokemonTypeIcons[pokemon.types[1].type.name]}" width="15%">` : ''}
-                </small>
-            </div>
-            <div class="extra-info display"> <!-- Add 'display' class to show extra info by default -->
-                <p class="type"><strong>Type:</strong> ${pokemon.types.map(type => type.type.name).join(' / ')}</p>
-                <p class="type"><strong>Height:</strong> ${pokemon.height}</p>
-                <p class="type"><strong>Weight:</strong> ${pokemon.weight}</p>
-                <p class="type"><strong>Abilities:</strong> ${pokemon.abilities.map(ability => ability.ability.name).join(' / ')}</p>
-            </div>
-        `;
-    
-        // Display the modal
-        modal.style.display = "flex";
-        overlay.style.display = "block";
-        document.body.classList.add("modal-open");
-    };
-
-    // Add event listener to the modal for closing it when clicking outside
-    const modal = document.getElementById("modal");
-    modal.addEventListener("click", () => {
-        modal.style.display = "none";
-        overlay.style.display = "none";
-        document.body.classList.remove("modal-open");
-    });
-
-    // Open modal for each Pokémon card
-    pokemonEl.addEventListener("click", () => {
-        createModal(pokemon);
-    });
+    pokemonEl.addEventListener("click", createModal);
+    function createModal() {
+        var modalInfo = pokemonEl;
+        console.log(modalInfo);
+        pokemonEl.append = modalInfo;
+        pokemonEl.classList.toggle('active');
+        pokemonEl.classList.contains('active')? (this.querySelector(".extra-info").style.display = "block") : (this.querySelector(".extra-info").style.display = "none");
+      }
 
     // Pokemon type colors defined
     const pokemonTypeColors = {
@@ -112,6 +80,8 @@ const createPokemonCard = (pokemon) => {
     // Different behavior depending on two or just one type
     if (types.length === 2) {
         var type2 = types[1].type.name;
+
+        /* console.log(abilities[0]["ability"]["name"]); */
         
         if (abilities.length === 2) {
         var pokeInnerHTML = `
@@ -148,7 +118,11 @@ const createPokemonCard = (pokemon) => {
             `;
         }
 
-        pokemonEl.style.backgroundImage = `linear-gradient(-45deg, ${pokemonTypeColors[type2]} 50%, ${pokemonTypeColors[type1]} 50%)`; 
+        pokemonEl.style.backgroundImage = `linear-gradient(-45deg, ${pokemonTypeColors[type2]} 50%, ${pokemonTypeColors[type1]} 50%)`;
+        /* console.log("pokemonTypeColors.type1: " + pokemonTypeColors[type1]);
+        console.log("pokemonTypeColors.type2: " + pokemonTypeColors[type2]); */
+
+        
 
     } else {
 
@@ -247,9 +221,18 @@ const createPokemonCard = (pokemon) => {
       }
 
     }
+
+/*     console.log(types.length);
+    if (types.length > 1) {
+        console.log(`${type1} / ${type2}`);
+    } else console.log(type1); */
+
+    // console.log(type2);
     
     pokemonEl.innerHTML = pokeInnerHTML;
     pokedex_container.appendChild(pokemonEl);
 }
+
+// getPokemon(1);
 
 fetchPokemons();
