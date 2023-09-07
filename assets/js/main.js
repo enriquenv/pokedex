@@ -1,5 +1,10 @@
 const pokedex_container = document.getElementById("pokedex_container");
-let pokemons_number = 150;
+const loadMoreButton = document.getElementById("loadMoreButton");
+const typeButtons = document.querySelectorAll(".type-button");
+let selectedTypes = new Set();
+
+let pokemons_number = 50;
+let currentPokemonCount = 50;
 
 const fetchPokemons = async () => {
     for (let i = 1; i <= pokemons_number; i++) {
@@ -252,4 +257,82 @@ const createPokemonCard = (pokemon) => {
     pokedex_container.appendChild(pokemonEl);
 }
 
+// After clicking loadmore button
+const fetchMorePokemons = async () => {
+    if (currentPokemonCount < 1000) {
+    const newPokemonCount = currentPokemonCount + 50;
+
+    for (let i = currentPokemonCount + 1; i <= newPokemonCount; i++) {
+        await getPokemon(i);
+    }
+
+    currentPokemonCount = newPokemonCount;
+    filterPokemons();
+} else if(currentPokemonCount == 1000) {
+    const newPokemonCount = currentPokemonCount + 10;
+
+    for (let i = currentPokemonCount + 1; i <= newPokemonCount; i++) {
+        await getPokemon(i);
+    }
+
+    currentPokemonCount = newPokemonCount;
+    loadMoreButton.style.display = 'none';
+    filterPokemons();
+} else {
+    loadMoreButton.style.display = 'none';
+}};
+
+loadMoreButton.addEventListener("click", fetchMorePokemons);
+
+
+
+
+
+// Event listener for type buttons
+typeButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const type = button.getAttribute("data-type");
+  
+      // Toggle selection for clicked type
+      if (selectedTypes.has(type)) {
+        selectedTypes.delete(type);
+        button.classList.remove("selected");
+      } else {
+        selectedTypes.add(type);
+        button.classList.add("selected");
+      }
+  
+      filterPokemons();
+    });
+  });
+  
+  // Function to filter Pokémon cards
+  const filterPokemons = () => {
+    const pokemonCards = document.querySelectorAll(".pokemon");
+  
+    pokemonCards.forEach((card) => {
+      const cardType = card.querySelector(".type img").getAttribute("src");
+      const cardTypeValue = cardType.substring(cardType.lastIndexOf("/") + 1, cardType.lastIndexOf("."));
+  
+      if (selectedTypes.size === 0 || selectedTypes.has(cardTypeValue)) {
+        card.style.display = "block";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  };
+  
+  
+  filterPokemons();
+
+
 fetchPokemons();
+
+//Background video
+/* const iframe = document.querySelector('#my-iframe');
+
+  iframe.addEventListener('mouseout', () => {
+    iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+    iframe.classList.add('background-video');
+    console.log("video clicked!")
+  }); */
